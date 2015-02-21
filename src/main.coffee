@@ -5,6 +5,7 @@
 
 window.makeNewGame = ->
   $('body').html('')
-  new AppView(model: new App()).$el.appendTo 'body' #start a new game
+  appModel = new App(); #initialize all game data
+  new AppView(model: appModel).$el.appendTo 'body' # give game data to App View and append to DOM
 
 makeNewGame()

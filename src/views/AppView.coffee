@@ -1,13 +1,29 @@
 class window.AppView extends Backbone.View
+  initialize: ->
+    @render()
+
+  render: ->
+    @$el.children().detach()
+    @$el.html @template()
+
   template: _.template '
-    <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>
+    <button class="deal-button">Deal</button>
+    <button class="hit-button">Hit</button>
+    <button class="stand-button">Stand</button>
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
   '
 
   events:
+    'click .deal-button': -> @dealCards()
     'click .hit-button': -> @playerHitAndCheck()
     'click .stand-button': -> @stand()
+
+  dealCards: ->
+    @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
+    @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
+
+
 
   playerHitAndCheck: ->
     @model.get('playerHand').hit()
@@ -45,12 +61,5 @@ class window.AppView extends Backbone.View
     #update View accordingly
     #Either display thanks for playing message or start new game!
 
-  initialize: ->
-    @render()
 
-  render: ->
-    @$el.children().detach()
-    @$el.html @template()
-    @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
-    @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
 
