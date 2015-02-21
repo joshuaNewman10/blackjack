@@ -37,8 +37,13 @@ class window.AppView extends Backbone.View
     dealerScore = Math.min.apply(null, @model.get('dealerHand').scores() )
     dealerScore = if dealerScore > 21 then Number.POSITIVE_INFINITY else 21 - dealerScore
     playerWins = if playerScore < dealerScore then true else false
-    console.log(playerWins)
 
+    @endGame()
+
+  endGame: ->
+    #notify user of result
+    #update View accordingly
+    #Either display thanks for playing message or start new game!
 
   initialize: ->
     @render()
