@@ -6,8 +6,26 @@ class window.AppView extends Backbone.View
   '
 
   events:
-    'click .hit-button': -> @model.get('playerHand').hit()
-    'click .stand-button': -> @model.get('playerHand').stand()
+    'click .hit-button': -> @hitAndCheck()
+    'click .stand-button': -> @stand()
+
+  playerHitAndCheck: ->
+    @model.get('playerHand').hit()
+    if Math.max( @model.get('playerHand').scores()[0] ) > 21
+      console.log 'over 21!'
+      makeNewGame()
+      # 1) Notify user
+      # 2) Modify interal state of game
+      # 3) Give user option to reset
+      # 4) Reset game ?
+
+  dealerHitAndCheck: ->
+
+  stand: ->
+   @dealerHitAndCheck()
+
+  compare: ->
+
 
   initialize: ->
     @render()
