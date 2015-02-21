@@ -21,3 +21,4 @@ class window.Hand extends Backbone.Collection
     return [@minScore(), @minScore() + 10 * @hasAce()]
 
 
+  deal: ->
