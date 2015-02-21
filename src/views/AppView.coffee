@@ -6,25 +6,38 @@ class window.AppView extends Backbone.View
   '
 
   events:
-    'click .hit-button': -> @hitAndCheck()
+    'click .hit-button': -> @playerHitAndCheck()
     'click .stand-button': -> @stand()
 
   playerHitAndCheck: ->
     @model.get('playerHand').hit()
-    if Math.max( @model.get('playerHand').scores()[0] ) > 21
+    if Math.min.apply(null, @model.get('playerHand').scores() ) > 21
       console.log 'over 21!'
-      makeNewGame()
+      @compare()
+      #makeNewGame()
       # 1) Notify user
       # 2) Modify interal state of game
       # 3) Give user option to reset
       # 4) Reset game ?
 
   dealerHitAndCheck: ->
+    while Math.min.apply( null, @model.get('dealerHand').scores() ) < 17
+      @model.get('dealerHand').hit()
+    @compare()
+
 
   stand: ->
    @dealerHitAndCheck()
 
   compare: ->
+    playerScore = Math.min.apply(null, @model.get('playerHand').scores() )
+    playerScore = if playerScore > 21 then Number.POSITIVE_INFINITY else 21 - playerScore
+    console.log playerScore
+
+    dealerScore = Math.min.apply(null, @model.get('dealerHand').scores() )
+    dealerScore = if dealerScore > 21 then Number.POSITIVE_INFINITY else 21 - dealerScore
+    playerWins = if playerScore < dealerScore then true else false
+    console.log(playerWins)
 
 
   initialize: ->
